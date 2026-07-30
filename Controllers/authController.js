@@ -1,6 +1,6 @@
-const users = [];
+const User = require("../models/User");
 
-const signup = (req,res) => {
+const signup = async (req,res) => {
 
     //req.body stores the clients submited data(JSON) as a JavaScript object
     const {name, email, password} = req.body;
@@ -13,7 +13,8 @@ const signup = (req,res) => {
 
     }
 
-    const existingUser = users.find(user => user.email === email);
+    // Find a user with the given email.
+    const existingUser = await User.findOne({ email });
 
 
     //res.status(409).json() sets the HTTP status code to 409 (Conflict) and sends a JSON response back to the client.
@@ -24,7 +25,12 @@ const signup = (req,res) => {
         });
     }
     
-    users.push({name, email, password});
+    // Save a new user in MongoDB.
+    await User.create({
+        name,
+        email,
+        password
+    });
 
     res.status(201).json({
         success: true,
