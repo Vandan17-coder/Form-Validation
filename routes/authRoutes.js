@@ -3,9 +3,9 @@ const express = require("express");
 
 // app = Main server (in index.js const app = express(); ) 
 // router = A mini route manager for related routes (e.g., auth, products, orders).
-express()
 
-//              │
+
+//              │a
 //              ▼
 //        app (Main Server)
 //  
@@ -18,8 +18,12 @@ express()
 
 const router = express.Router();
 
-const { signup } = require("../Controllers/authController");
+// Import signup and login controllers.
+const { signup, login } = require("../Controllers/authController");
 
 router.post("/signup", signup);
+
+// Handle user login requests.
+router.post("/login", login);
 
 module.exports = router;
