@@ -1,3 +1,6 @@
+// Import jsonwebtoken to create and verify JWT tokens.
+const jwt = require("jsonwebtoken");
+
 // Import bcrypt to hash and verify passwords.
 const bcrypt = require("bcrypt");
 
@@ -66,15 +69,45 @@ const login = async (req, res) => {
         });
     }
 
+
+
+     //JWT consist of three part Header.Payload.Signature
+    /*  Header → Token type & algorithm.
+        Payload → User information (id, email, etc.).
+        Signature → Generated using the payload + header + your secret key. */
+    
+        const token = jwt.sign(
+        {//payload
+            id: user._id,
+            email: user.email
+        },//secret key 
+        process.env.JWT_SECRET,
+        {
+            expiresIn: "1d"
+        }
+    )
+
     //If both the email exists and the password matches:
     return res.status(200).json({
-        message: "Login successful"
+        success: true,
+        message: "Login successful",
+        token
     });
 
+}
+
+const profile = (req, res) => {
+
+    // Send the logged-in user's information.
+    res.status(200).json({
+        message: "Welcome to your profile",
+        user: req.user
+    })
 }
 
 // module.exports makes functions or variables available to other JavaScript files.
 module.exports = { 
     signup,
-    login
+    login,
+    profile
  };

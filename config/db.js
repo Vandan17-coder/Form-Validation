@@ -9,6 +9,7 @@ const connectDB = async () => {
         // process.env reads environment variables loaded from the .env file.
 
         console.log("MongoDB Connected Successfully");
+        
     } catch (error) {
         console.log("❌ MongoDB Connection Error:");
         console.log(error);

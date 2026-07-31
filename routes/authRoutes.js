@@ -19,11 +19,14 @@ const express = require("express");
 const router = express.Router();
 
 // Import signup and login controllers.
-const { signup, login } = require("../Controllers/authController");
+const { signup, login, profile } = require("../Controllers/authController");
+const verifyToken = require("../middleware/authMiddleware");
 
 router.post("/signup", signup);
 
 // Handle user login requests.
 router.post("/login", login);
+
+router.get("/profile", verifyToken, profile)
 
 module.exports = router;
